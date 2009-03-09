@@ -1,0 +1,65 @@
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright (c) 2009 Megatome Technologies
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+<MessageCollection>
+    <Detector
+            class="org.megatome.knowndefect.findbugs.KnownDefectAnnotationDetector">
+        <Details>
+            <![CDATA[
+<p>This detector warns about methods marked with the KnownDefect annotation.</p>
+]]>
+        </Details>
+    </Detector>
+
+    <Detector
+            class="org.megatome.knowndefect.findbugs.KnownAndAcceptedDefectAnnotationDetector">
+        <Details>
+            <![CDATA[
+<p>This detector warns about methods marked with the KnownAndAcceptedDefect annotation.</p>
+]]>
+        </Details>
+    </Detector>
+
+    <BugPattern type="KD_KNOWN_DEFECT">
+        <ShortDescription>Known Defect</ShortDescription>
+        <LongDescription>{1} contains a known defect.</LongDescription>
+
+        <Details>
+            <![CDATA[
+<p>Sometimes, especially when trying to document the existing behavior of a legacy system, known defects are found that cannot be fixed immediately.</p>
+<p>The KnownDefect annotation can be added to the method to indicate a problem, and all KnownDefects can be collected using FindBugs.</p>
+]]>
+
+        </Details>
+    </BugPattern>
+
+    <BugPattern type="KD_KNOWN_AND_ACCEPTED_DEFECT">
+        <ShortDescription>Known And Accepted Defect</ShortDescription>
+        <LongDescription>{1} contains a known and accepted defect.</LongDescription>
+
+        <Details>
+            <![CDATA[
+<p>Sometimes, especially when trying to document the existing behavior of a legacy system, known defects are found that cannot be fixed immediately.</p>
+<p>The KnownAndAcceptedDefect annotation can be added to the method to indicate a known problem that will not be fixed, and all KnownAndAcceptedDefects can be collected using FindBugs.</p>
+]]>
+
+        </Details>
+    </BugPattern>
+
+    <BugCode abbrev="KD">
+        KnownDefect Annotation
+    </BugCode>
+</MessageCollection>
