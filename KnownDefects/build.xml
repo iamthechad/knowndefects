@@ -46,22 +46,30 @@
 
     <target name="prepare-dist">
         <mkdir dir="${dist.lib}"/>
-        <copy file="${readme}" tofile="${dist}/${readme}"/>
     </target>
 
     <target name="dist-annotation" depends="prepare-dist,compile">
-        <jar jarfile="${dist.lib}/${kd_jar}" basedir="${classes}" includes="com/megatome/knowndefect/annotations/**"/>
+        <jar jarfile="${dist.lib}/${kd_jar}" basedir="${classes}" includes="org/megatome/knowndefect/annotations/**"/>
     </target>
 
     <target name="dist-findbugs" depends="prepare-dist,compile">
         <jar jarfile="${dist.lib}/${kd_findbugs_jar}">
-            <fileset dir="${classes}" includes="com/megatome/knowndefect/findbugs/**"/>
+            <fileset dir="${classes}" includes="org/megatome/knowndefect/findbugs/**"/>
             <fileset dir="${src}" includes="**/*.xml"/>
         </jar>
     </target>
 
     <target name="dist" depends="dist-annotation,dist-findbugs">
-        <zip destfile="${dist.file}" basedir="${dist}"/>
+        <zip destfile="${dist.file}" basedir="${dist}">
+            <zipfileset dir="example" prefix="example"/>
+            <zipfileset dir="ext" prefix="ext"/>
+            <zipfileset dir="src" prefix="src"/>
+            <fileset dir="${proj-base}">
+                <include name="build.properties"/>
+                <include name="build.xml"/>
+                <include name="${readme}"/>
+            </fileset>
+        </zip>
     </target>
 
     <target name="javadoc" depends="compile">

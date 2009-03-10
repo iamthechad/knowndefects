@@ -277,6 +277,17 @@
     <option name="ADDITIONAL_OPTIONS_STRING" value="" />
   </component>
   <component name="SvnBranchConfigurationManager">
+    <option name="myConfigurationMap">
+      <map>
+        <entry key="$PROJECT_DIR$">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="trunkUrl" value="https://knowndefects.svn.sourceforge.net/svnroot/knowndefects/trunk" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+      </map>
+    </option>
     <option name="myVersion" value="124" />
     <option name="mySupportsUserInfoFilter" value="true" />
   </component>
@@ -287,9 +298,9 @@
   <component name="libraryTable">
     <library name="lib">
       <CLASSES>
-        <root url="jar://$PROJECT_DIR$/lib/bcel.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/asm-tree-3.0.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/findbugs.jar!/" />
+        <root url="jar://$PROJECT_DIR$/ext/findbugs.jar!/" />
+        <root url="jar://$PROJECT_DIR$/ext/bcel.jar!/" />
+        <root url="jar://$PROJECT_DIR$/ext/asm-tree-3.0.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />

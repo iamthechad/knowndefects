@@ -1,43 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project relativePaths="false" version="4">
   <component name="ChangeListManager">
-    <list default="true" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/megatome/knowndefect/annotations/package.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/example/org/megatome/knowndefect" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/example" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/README.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/KnownDefects.iws" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/findbugs.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/messages.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/findbugs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/megatome/knowndefect/findbugs/AbstractAnnotationDetector.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/example/org/megatome" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/example/org/megatome/knowndefect/example/ExampleKnownAndAcceptedDefects.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/megatome/knowndefect/findbugs/package.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/KnownDefects.ipr" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/KnownDefects.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/asm-tree-3.0.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/megatome/knowndefect/findbugs/KnownDefectAnnotationDetector.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build.properties" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/megatome/knowndefect/annotations/KnownAndAcceptedDefect.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/megatome/knowndefect/annotations/KnownDefect.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/bcel.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/example/org/megatome/knowndefect/example/package.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/megatome/knowndefect" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/megatome/knowndefect/findbugs/KnownAndAcceptedDefectAnnotationDetector.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/megatome" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/example/org/megatome/knowndefect/example" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/build.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/example/org/megatome/knowndefect/example/ExampleKnownDefects.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/megatome/knowndefect/annotations" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/example/org" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/megatome/knowndefect/findbugs" />
+    <list default="true" readonly="true" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ext/BCEL-LICENSE.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$" afterPath="$PROJECT_DIR$" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ext/FINDBUGS-LICENSE.txt" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ext" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/KnownDefects.iws" afterPath="$PROJECT_DIR$/KnownDefects.iws" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ext/ASM-LICENSE.txt" />
+      <change type="MOVED" beforePath="C:\workspaces\KnownDefects\lib\asm-tree-3.0.jar" afterPath="$PROJECT_DIR$/ext/asm-tree-3.0.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/KnownDefects.ipr" afterPath="$PROJECT_DIR$/KnownDefects.ipr" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.xml" afterPath="$PROJECT_DIR$/build.xml" />
+      <change type="MOVED" beforePath="C:\workspaces\KnownDefects\lib\bcel.jar" afterPath="$PROJECT_DIR$/ext/bcel.jar" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/lib" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.properties" afterPath="$PROJECT_DIR$/build.properties" />
+      <change type="MOVED" beforePath="C:\workspaces\KnownDefects\lib\findbugs.jar" afterPath="$PROJECT_DIR$/ext/findbugs.jar" />
     </list>
-    <ignored path=".idea/workspace.xml" />
     <ignored path="KnownDefects.iws" />
+    <ignored path=".idea/workspace.xml" />
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="Commander">
@@ -92,17 +72,7 @@
     <favorites_list name="KnownDefects" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="build.xml" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/build.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="18" selection-start="920" selection-end="920" vertical-scroll-proportion="-0.58717436">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -181,7 +151,7 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="lib" />
+          <option name="myItemId" value="ext" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -228,7 +198,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="GoToFile.includeJavaFiles" value="false" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="MemberChooser.sorted" value="false" />
@@ -353,19 +323,19 @@
     <editor active="false" />
     <layout>
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" />
-      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3298122" sideWeight="0.5" order="8" side_tool="false" />
+      <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3298122" sideWeight="0.0" order="8" side_tool="false" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.6619718" order="1" side_tool="false" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32928804" sideWeight="0.6619718" order="1" side_tool="false" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32951945" sideWeight="0.5" order="1" side_tool="false" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" />
       <window_info id="Dataflow to this" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" />
-      <window_info id="FindBugs-IDEA" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298122" sideWeight="0.5" order="-1" side_tool="false" />
+      <window_info id="FindBugs-IDEA" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298122" sideWeight="0.5" order="8" side_tool="false" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298122" sideWeight="0.5" order="8" side_tool="false" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.6619718" order="0" side_tool="false" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32928804" sideWeight="0.6619718" order="0" side_tool="false" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" />
       <window_info id="Web Preview" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="6" side_tool="false" />
@@ -386,7 +356,7 @@
     <option name="PERFORM_CHECKOUT_IN_BACKGROUND" value="true" />
     <option name="PERFORM_ADD_REMOVE_IN_BACKGROUND" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial Commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Move external jars. Change build to include source." />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="REFORMAT_BEFORE_FILE_COMMIT" value="false" />
@@ -400,6 +370,7 @@
     <MESSAGE value="Trunk" />
     <MESSAGE value="Initial checkin" />
     <MESSAGE value="Initial Commit" />
+    <MESSAGE value="Move external jars. Change build to include source." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -421,20 +392,6 @@
     </buildFile>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/README.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="69" selection-start="2392" selection-end="2392" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/megatome/knowndefect/findbugs/AbstractAnnotationDetector.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="22" selection-start="1318" selection-end="1318" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/megatome/knowndefect/annotations/KnownDefect.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="37" column="18" selection-start="1571" selection-end="1571" vertical-scroll-proportion="0.0">
@@ -491,13 +448,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/build.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="47" selection-start="1390" selection-end="1390" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/megatome/knowndefect/annotations/KnownAndAcceptedDefect.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="14" column="80" selection-start="0" selection-end="759" vertical-scroll-proportion="0.0">
@@ -519,9 +469,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/ext/ASM-LICENSE.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ext/FINDBUGS-LICENSE.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ext/BCEL-LICENSE.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/build.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="18" selection-start="920" selection-end="920" vertical-scroll-proportion="-0.58717436">
+        <state line="48" column="0" selection-start="1771" selection-end="1771" vertical-scroll-proportion="-34.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="37" column="40" selection-start="1460" selection-end="1460" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
