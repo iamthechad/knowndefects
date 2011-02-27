@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  ~ Copyright (c) 2009 Megatome Technologies
+  ~ Copyright (c) 2011 Megatome Technologies
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -75,7 +75,7 @@
             <packageset dir="${src}" defaultexcludes="yes"/>
             <packageset dir="${examples}" defaultexcludes="yes"/>
             <bottom>
-                <![CDATA[<em>Copyright (C) 2009, Megatome Technologies</em>
+                <![CDATA[<em>Copyright (C) 2011, Megatome Technologies</em>
 			<br>All Rights Reserved]]>
             </bottom>
             <link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>
