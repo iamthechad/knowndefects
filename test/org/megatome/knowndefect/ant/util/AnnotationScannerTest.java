@@ -22,29 +22,34 @@ import java.net.URL;
 import java.util.Map;
 import java.util.Set;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 
 public class AnnotationScannerTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testScanNullClasspath() throws Exception {
-         AnnotationScanner.findAnnotationsInPath(null);
+        AnnotationScanner.findAnnotationsInPath(null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testScanEmptyClasspath() throws Exception {
-         AnnotationScanner.findAnnotationsInPath("");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testScanDotClasspath() throws Exception {
-         AnnotationScanner.findAnnotationsInPath(".");
+        AnnotationScanner.findAnnotationsInPath("");
     }
 
     @Test
     public void testScanTestClasspath() throws Exception {
-        final Map<String, Set<String>> foundAnnos = AnnotationScanner.findAnnotationsInPath("org/megatome/knowndefect/ant/util/AnnotationScannerTest.class");
+        final Map<String, Set<String>> foundAnnos = AnnotationScanner.findAnnotationsInPath(".");
 
         assertNotNull(foundAnnos);
+
+        assertFalse(foundAnnos.isEmpty());
+
+        for (final Map.Entry<String, Set<String>> entry : foundAnnos.entrySet()) {
+            System.out.println("Looking at: " + entry.getKey());
+            for (final String value : entry.getValue()) {
+                System.out.println("Value: " + value);
+            }
+        }
     }
 }

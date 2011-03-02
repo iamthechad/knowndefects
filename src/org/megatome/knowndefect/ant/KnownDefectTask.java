@@ -18,13 +18,6 @@ package org.megatome.knowndefect.ant;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
-import org.scannotation.AnnotationDB;
-import org.scannotation.ClasspathUrlFinder;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.Map;
-import java.util.Set;
 
 public class KnownDefectTask extends Task {
     private String classDir;
@@ -36,7 +29,7 @@ public class KnownDefectTask extends Task {
     @Override
     public void execute() throws BuildException {
         System.out.println("Executing KnownDefectTask for location " + classDir);
-        final URL classPath = ClasspathUrlFinder.findResourceBase(classDir);
+        /*final URL classPath = ClasspathUrlFinder.findResourceBase(classDir);
         AnnotationDB db = new AnnotationDB();
         try {
             db.scanArchives(classPath);
@@ -50,6 +43,6 @@ public class KnownDefectTask extends Task {
             for (final String value : entry.getValue()) {
                 System.out.println("Value: " + value);
             }
-        }
+        }*/
     }
 }

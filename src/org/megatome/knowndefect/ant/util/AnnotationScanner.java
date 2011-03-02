@@ -16,77 +16,103 @@
 
 package org.megatome.knowndefect.ant.util;
 
-import org.scannotation.AnnotationDB;
-import org.scannotation.ClasspathUrlFinder;
+import javassist.bytecode.AnnotationsAttribute;
+import javassist.bytecode.ClassFile;
+import javassist.bytecode.MethodInfo;
+import javassist.bytecode.annotation.Annotation;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.io.*;
 import java.util.*;
 
 public class AnnotationScanner {
-    //private static final AnnotationDB db = new AnnotationDB();
+    private static final Map<String, Set<String>> classIndex = new HashMap<String, Set<String>>();
+    private static final Map<String, Set<String>> annotationIndex = new HashMap<String, Set<String>>();
     private static final List<String> ignoredPackages = new ArrayList<String>(Arrays.asList("javax", "java", "sun", "com.sun", "javassist"));
 
     public static Map<String, Set<String>> findAnnotationsInPath(final String basePath) throws AnnotationScanException {
-        if ((null == basePath) || (basePath.isEmpty()) || ".".equals(basePath)) {
+        if ((null == basePath) || (basePath.isEmpty())) {
             throw new IllegalArgumentException("Base path cannot be null");
         }
-        final URL classPath = findResourceBase(basePath);
-        /*for (final String str : db.getIgnoredPackages()) {
-            System.out.println(str);
-        }
-        System.out.println("URL: " + classPath.toString());*/
         try {
-            scanArchives(classPath);
+            scanArchives(new File(basePath));
         } catch (IOException e) {
             throw new AnnotationScanException("Error scanning for annotations", e);
         }
 
-        return db.getAnnotationIndex();
+        return annotationIndex;
     }
 
-    private static URL findResourceBase(final String path) throws AnnotationScanException {
-        final ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        final URL url = loader.getResource(path);
-        String urlString = url.toString();
-        int idx = urlString.lastIndexOf(path);
-        urlString = urlString.substring(0, idx);
-        URL deployUrl = null;
-        try {
-            deployUrl = new URL(urlString);
-        } catch (MalformedURLException e) {
-            throw new AnnotationScanException("URL was somehow corrupt");
-        }
-        return deployUrl;
-    }
-
-    private static void scanArchives(URL... urls) {
-        for (URL url : urls) {
-            Filter filter = new Filter() {
-                public boolean accepts(String filename) {
-                    if (filename.endsWith(".class")) {
-                        if (filename.startsWith("/")) filename = filename.substring(1);
-                        if (!AnnotationDB.this.ignoreScan(filename.replace('/', '.'))) return true;
-                    }
-
-                    return false;
+    private static void scanArchives(File f) throws IOException {
+        Filter filter = new Filter() {
+            public boolean accepts(String filename) {
+                if (filename.endsWith(".class")) {
+                    if (filename.startsWith("/")) filename = filename.substring(1);
+                    if (!ignoreScan(filename.replace('/', '.'))) return true;
                 }
-            };
-            StreamIterator it = IteratorFactory.create(url, filter);
-            InputStream stream;
-            while ((stream = it.next()) != null) scanClass(stream);
-        }
+
+                return false;
+            }
+        };
+        StreamIterator it = new FileIterator(f, filter);
+        InputStream stream;
+        while ((stream = it.next()) != null) scanClass(stream);
     }
 
-    private boolean ignoreScan(String intf) {
-        for (String ignored : this.ignoredPackages) {
+    private static boolean ignoreScan(String intf) {
+        for (String ignored : ignoredPackages) {
             if (intf.startsWith(ignored + ".")) {
                 return true;
             }
+        }
+        return false;
+    }
 
+    private static void scanClass(InputStream bits)
+            throws IOException {
+        DataInputStream dstream = new DataInputStream(new BufferedInputStream(bits));
+        try {
+            final ClassFile cf = new ClassFile(dstream);
+            classIndex.put(cf.getName(), new HashSet<String>());
+            scanMethods(cf);
+        } finally {
+            dstream.close();
+            bits.close();
+        }
+    }
+
+    private static void scanMethods(ClassFile cf) {
+        final List methods = cf.getMethods();
+        if (methods == null) return;
+        for (final Object obj : methods) {
+            final MethodInfo method = (MethodInfo) obj;
+            final AnnotationsAttribute visible = (AnnotationsAttribute) method.getAttribute("RuntimeVisibleAnnotations");
+            final AnnotationsAttribute invisible = (AnnotationsAttribute) method.getAttribute("RuntimeInvisibleAnnotations");
+
+            if (visible != null) populate(visible.getAnnotations(), cf.getName());
+            if (invisible != null) populate(invisible.getAnnotations(), cf.getName());
         }
 
-        return false;
+    }
+
+    private static void populate(Annotation[] annotations, String className) {
+        if (annotations == null) return;
+        System.out.println("ClassName: " + className);
+        Set<String> classAnnotations = classIndex.get(className);
+        for (Annotation ann : annotations) {
+            Set<String> classes = annotationIndex.get(ann.getTypeName());
+            Set memberNames = ann.getMemberNames();
+            if (null != memberNames) {
+                for (Object obj : memberNames) {
+                    String mName = (String)obj;
+                    System.out.println("MName: " + mName + " -> " + ann.getMemberValue(mName));
+                }
+            }
+            if (classes == null) {
+                classes = new HashSet<String>();
+                annotationIndex.put(ann.getTypeName(), classes);
+            }
+            classes.add(className);
+            classAnnotations.add(ann.getTypeName());
+        }
     }
 }
