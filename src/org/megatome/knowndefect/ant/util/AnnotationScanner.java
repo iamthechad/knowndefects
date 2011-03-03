@@ -19,9 +19,7 @@ package org.megatome.knowndefect.ant.util;
 
 import static org.megatome.knowndefect.Constants.*;
 
-import javassist.bytecode.AnnotationsAttribute;
-import javassist.bytecode.ClassFile;
-import javassist.bytecode.MethodInfo;
+import javassist.bytecode.*;
 import javassist.bytecode.annotation.Annotation;
 import org.megatome.knowndefect.ant.AnnotationInformation;
 import org.megatome.knowndefect.ant.AnnotationInformationFactory;
@@ -30,7 +28,6 @@ import java.io.*;
 import java.util.*;
 
 public class AnnotationScanner {
-    private static final Map<String, Set<AnnotationInformation>> classIndex = new HashMap<String, Set<AnnotationInformation>>();
     private static final Map<String, Set<AnnotationInformation>> annotationIndex = new HashMap<String, Set<AnnotationInformation>>();
     private static final List<String> ignoredPackages = new ArrayList<String>(Arrays.asList("javax", "java", "sun", "com.sun", "javassist"));
     private static final Set<String> classTypes = new HashSet<String>(Arrays.asList(KNOWN_DEFECT_ANNOTATION_CLASS, KNOWN_ACCEPTED_DEFECT_ANNOTATION_CLASS));
@@ -78,7 +75,6 @@ public class AnnotationScanner {
         DataInputStream dstream = new DataInputStream(new BufferedInputStream(bits));
         try {
             final ClassFile cf = new ClassFile(dstream);
-            classIndex.put(cf.getName(), new HashSet<AnnotationInformation>());
             scanMethods(cf);
         } finally {
             dstream.close();
@@ -94,28 +90,27 @@ public class AnnotationScanner {
             final AnnotationsAttribute visible = (AnnotationsAttribute) method.getAttribute("RuntimeVisibleAnnotations");
             final AnnotationsAttribute invisible = (AnnotationsAttribute) method.getAttribute("RuntimeInvisibleAnnotations");
 
-            if (visible != null) populate(visible.getAnnotations(), cf.getName());
-            if (invisible != null) populate(invisible.getAnnotations(), cf.getName());
+            if (visible != null) populate(visible.getAnnotations(), method.getName(), method.getLineNumber(0), cf.getName());
+            if (invisible != null) populate(invisible.getAnnotations(), method.getName(), method.getLineNumber(0), cf.getName());
         }
 
     }
 
-    private static void populate(Annotation[] annotations, String className) {
+    private static void populate(Annotation[] annotations, String methodName, int lineNumber, String className) {
         if (annotations == null) return;
-        //System.out.println("ClassName: " + className);
-        //Set<AnnotationInformation> classAnnotations = classIndex.get(className);
         for (Annotation ann : annotations) {
             final String annotationClass = ann.getTypeName();
             if (classTypes.contains(annotationClass)) {
                 final AnnotationInformation info = AnnotationInformationFactory.createInformation(annotationClass);
                 info.setClassName(className);
+                info.setMethodName(methodName);
+                info.setLineNumber(lineNumber);
                 Set<AnnotationInformation> classes = annotationIndex.get(ann.getTypeName());
                 Set memberNames = ann.getMemberNames();
                 if (null != memberNames) {
                     for (Object obj : memberNames) {
                         String mName = (String)obj;
                         info.setMethodValue(mName, ann.getMemberValue(mName).toString());
-                        //System.out.println("MName: " + mName + " -> " + ann.getMemberValue(mName));
                     }
                 }
                 if (classes == null) {
@@ -123,7 +118,6 @@ public class AnnotationScanner {
                     annotationIndex.put(ann.getTypeName(), classes);
                 }
                 classes.add(info);
-            //classAnnotations.add(ann.getTypeName());
             }
         }
     }

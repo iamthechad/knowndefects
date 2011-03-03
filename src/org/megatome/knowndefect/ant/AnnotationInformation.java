@@ -24,4 +24,8 @@ public interface AnnotationInformation {
     public void setMethodValue(String methodName, String methodValue);
     public String getClassName();
     public void setClassName(String className);
+    public String getMethodName();
+    public void setMethodName(String methodName);
+    public void setLineNumber(int lineNumber);
+    public int getLineNumber();
 }

@@ -17,4 +17,7 @@
 package org.megatome.knowndefect.ant;
 
 public class KnownDefectInformation extends AbstractInformation {
+    public String getValue() {
+        return getMethodValue("value");
+    }
 }
