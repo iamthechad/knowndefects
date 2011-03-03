@@ -16,6 +16,8 @@
 
 package org.megatome.knowndefect.findbugs;
 
+import static org.megatome.knowndefect.Constants.KNOWN_DEFECT_ANNOTATION_CLASS;
+
 import edu.umd.cs.findbugs.BugReporter;
 
 /**
@@ -25,7 +27,6 @@ import edu.umd.cs.findbugs.BugReporter;
  */
 public final class KnownDefectAnnotationDetector extends AbstractAnnotationDetector {
     private static final String KD_TYPE = "KD_KNOWN_DEFECT";
-    private static final String KNOWN_DEFECT_ANNOTATION_CLASS = "org.megatome.knowndefect.annotations.KnownDefect";
 
     /**
      * Create an instance of this detector

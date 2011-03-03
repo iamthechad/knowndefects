@@ -17,6 +17,7 @@
 package org.megatome.knowndefect.ant.util;
 
 import org.junit.Test;
+import org.megatome.knowndefect.ant.AnnotationInformation;
 
 import java.net.URL;
 import java.util.Map;
@@ -39,17 +40,23 @@ public class AnnotationScannerTest {
 
     @Test
     public void testScanTestClasspath() throws Exception {
-        final Map<String, Set<String>> foundAnnos = AnnotationScanner.findAnnotationsInPath(".");
+        final Map<String, Set<AnnotationInformation>> foundAnnos = AnnotationScanner.findAnnotationsInPath(".");
 
         assertNotNull(foundAnnos);
 
         assertFalse(foundAnnos.isEmpty());
 
-        for (final Map.Entry<String, Set<String>> entry : foundAnnos.entrySet()) {
+        for (final Map.Entry<String, Set<AnnotationInformation>> entry : foundAnnos.entrySet()) {
             System.out.println("Looking at: " + entry.getKey());
-            for (final String value : entry.getValue()) {
-                System.out.println("Value: " + value);
+            for (final AnnotationInformation info : entry.getValue()) {
+                System.out.println("Class Name: " + info.getClassName());
+                for (final String str : info.getMethodNames()) {
+                    System.out.println(str + " -> " + info.getMethodValue(str));
+                }
             }
+            /*for (final String value : entry.getValue()) {
+                System.out.println("Value: " + value);
+            }*/
         }
     }
 }
