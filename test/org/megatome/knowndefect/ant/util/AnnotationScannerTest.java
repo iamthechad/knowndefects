@@ -89,7 +89,7 @@ public class AnnotationScannerTest {
                     foundKD = true;
                     assertEquals("\"iamthechad\"", kdi.getAuthor());
                     assertEquals("\"03/01/2011\"", kdi.getDate());
-                    assertEquals("\"I like empty methods\"", kdi.getReason());
+                    assertEquals("\"I like \"empty\" methods\"", kdi.getReason());
                 }
             }
         }
@@ -106,7 +106,7 @@ public class AnnotationScannerTest {
         // Nothing here
     }
 
-    @KnownAndAcceptedDefect(author = "iamthechad", date = "03/01/2011", reason = "I like empty methods")
+    @KnownAndAcceptedDefect(author = "iamthechad", date = "03/01/2011", reason = "I like \"empty\" methods")
     private void sampleKADMethod() {
         // Nothing here
     }

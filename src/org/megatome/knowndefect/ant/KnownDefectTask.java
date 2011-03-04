@@ -18,31 +18,57 @@ package org.megatome.knowndefect.ant;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
+import org.megatome.knowndefect.ant.util.AnnotationScanException;
+import org.megatome.knowndefect.ant.util.AnnotationScanner;
+import org.w3c.dom.Comment;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Text;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.File;
+import java.io.StringWriter;
+import java.util.Map;
+import java.util.Set;
 
 public class KnownDefectTask extends Task {
     private String classDir;
+    private String output = "xml";
+    private String outputFile;
 
     public void setClassDir(String classDir) {
         this.classDir = classDir;
     }
 
+    public void setOutputFile(String outputFile) {
+        this.outputFile = outputFile;
+    }
+
     @Override
     public void execute() throws BuildException {
         System.out.println("Executing KnownDefectTask for location " + classDir);
-        /*final URL classPath = ClasspathUrlFinder.findResourceBase(classDir);
-        AnnotationDB db = new AnnotationDB();
-        try {
-            db.scanArchives(classPath);
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new BuildException("Error scanning classpath " + e.getMessage());
+        if (null == classDir || classDir.isEmpty()) {
+            throw new BuildException("classDir must be specified");
         }
-        Map<String, Set<String>> map = db.getAnnotationIndex();
-        for (final Map.Entry<String, Set<String>> entry : map.entrySet()) {
-            System.out.println("Looking at: " + entry.getKey());
-            for (final String value : entry.getValue()) {
-                System.out.println("Value: " + value);
-            }
-        }*/
+        if (null == outputFile || outputFile.isEmpty()) {
+            throw new BuildException("outputFile must be specified");
+        }
+        try {
+            final Map<String, Set<AnnotationInformation>> foundAnnos = AnnotationScanner.findAnnotationsInPath(classDir);
+            saveFoundAnnotations(foundAnnos);
+        } catch (AnnotationScanException e) {
+            throw new BuildException("Failed to find KnownDefect annotations", e);
+        }
+    }
+
+    private void saveFoundAnnotations(final Map<String, Set<AnnotationInformation>> annos) {
+        final File f = new File(outputFile);
+
     }
 }
