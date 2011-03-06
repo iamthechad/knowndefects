@@ -14,20 +14,18 @@
  * limitations under the License.
  ******************************************************************************/
 
-package org.megatome.knowndefect.ant;
+package org.megatome.knowndefect.ant.info;
 
-import static org.megatome.knowndefect.Constants.*;
+public class KnownAcceptedDefectInformation extends AbstractInformation {
+    public String getAuthor() {
+        return getMethodValue("author");
+    }
 
-public class AnnotationInformationFactory {
-    private AnnotationInformationFactory() {}
+    public String getDate() {
+        return getMethodValue("date");
+    }
 
-    public static AnnotationInformation createInformation(final String className) {
-        if (KNOWN_DEFECT_ANNOTATION_CLASS.equals(className)) {
-            return new KnownDefectInformation();
-        } else if (KNOWN_ACCEPTED_DEFECT_ANNOTATION_CLASS.equals(className)) {
-            return new KnownAcceptedDefectInformation();
-        }
-
-        return null;
+    public String getReason() {
+        return getMethodValue("reason");
     }
 }

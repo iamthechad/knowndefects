@@ -14,7 +14,7 @@
  * limitations under the License.
  ******************************************************************************/
 
-package org.megatome.knowndefect.ant.util;
+package org.megatome.knowndefect.ant.scan;
 
 import java.io.File;
 import java.io.FileInputStream;

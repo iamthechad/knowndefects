@@ -16,9 +16,10 @@
 
 package org.megatome.knowndefect.ant.util;
 
-import org.megatome.knowndefect.ant.AnnotationInformation;
-import org.megatome.knowndefect.ant.KnownAcceptedDefectInformation;
-import org.megatome.knowndefect.ant.KnownDefectInformation;
+import org.megatome.knowndefect.ant.info.AnnotationInformation;
+import org.megatome.knowndefect.ant.info.KnownAcceptedDefectInformation;
+import org.megatome.knowndefect.ant.info.KnownDefectInformation;
+import org.megatome.knowndefect.ant.scan.AnnotationScanResults;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
@@ -31,15 +32,11 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.StringWriter;
-import java.util.Map;
 import java.util.Set;
 
-import static org.megatome.knowndefect.Constants.KNOWN_ACCEPTED_DEFECT_ANNOTATION_CLASS;
-import static org.megatome.knowndefect.Constants.KNOWN_DEFECT_ANNOTATION_CLASS;
-
 public class XMLBuilder {
-    public static String convertToXML(Map<String, Set<AnnotationInformation>> annos) throws Exception {
-        if (null == annos) {
+    public static String convertToXML(final AnnotationScanResults asr) throws Exception {
+        if (null == asr) {
             return null;
         }
 
@@ -55,18 +52,18 @@ public class XMLBuilder {
         final Element root = doc.createElement("knowndefects");
         doc.appendChild(root);
 
-        if (annos.containsKey(KNOWN_DEFECT_ANNOTATION_CLASS)) {
+        if (asr.hasKnownDefectResults()) {
             final Element child = doc.createElement("knowndefect");
             root.appendChild(child);
 
-            buildClassNodes(doc, child, annos.get(KNOWN_DEFECT_ANNOTATION_CLASS));
+            buildClassNodes(doc, child, asr.getKnownDefectResults());
         }
 
-        if (annos.containsKey(KNOWN_ACCEPTED_DEFECT_ANNOTATION_CLASS)) {
+        if (asr.hasKnownAcceptedDefectResults()) {
             final Element child = doc.createElement("knownandaccepteddefect");
             root.appendChild(child);
 
-            buildClassNodes(doc, child, annos.get(KNOWN_ACCEPTED_DEFECT_ANNOTATION_CLASS));
+            buildClassNodes(doc, child, asr.getKnownAcceptedDefectResults());
         }
 
         //set up a transformer

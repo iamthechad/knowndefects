@@ -14,8 +14,22 @@
  * limitations under the License.
  ******************************************************************************/
 
-package org.megatome.knowndefect.ant.util;
+package org.megatome.knowndefect.ant.scan;
 
-public interface Filter {
-    public abstract boolean accepts(String paramString);
+public class AnnotationScanException extends Exception {
+    public AnnotationScanException() {
+        super();
+    }
+
+    public AnnotationScanException(String s) {
+        super(s);
+    }
+
+    public AnnotationScanException(String s, Throwable throwable) {
+        super(s, throwable);
+    }
+
+    public AnnotationScanException(Throwable throwable) {
+        super(throwable);
+    }
 }

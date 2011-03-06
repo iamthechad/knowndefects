@@ -14,7 +14,7 @@
  * limitations under the License.
  ******************************************************************************/
 
-package org.megatome.knowndefect.ant;
+package org.megatome.knowndefect.ant.info;
 
 import java.util.List;
 

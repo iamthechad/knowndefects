@@ -14,18 +14,10 @@
  * limitations under the License.
  ******************************************************************************/
 
-package org.megatome.knowndefect.ant;
+package org.megatome.knowndefect.ant.info;
 
-public class KnownAcceptedDefectInformation extends AbstractInformation {
-    public String getAuthor() {
-        return getMethodValue("author");
-    }
-
-    public String getDate() {
-        return getMethodValue("date");
-    }
-
-    public String getReason() {
-        return getMethodValue("reason");
+public class KnownDefectInformation extends AbstractInformation {
+    public String getValue() {
+        return getMethodValue("value");
     }
 }

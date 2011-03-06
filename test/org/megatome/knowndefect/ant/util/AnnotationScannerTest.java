@@ -19,16 +19,15 @@ package org.megatome.knowndefect.ant.util;
 import org.junit.Test;
 import org.megatome.knowndefect.annotations.KnownAndAcceptedDefect;
 import org.megatome.knowndefect.annotations.KnownDefect;
-import org.megatome.knowndefect.ant.AnnotationInformation;
-import org.megatome.knowndefect.ant.KnownAcceptedDefectInformation;
-import org.megatome.knowndefect.ant.KnownDefectInformation;
+import org.megatome.knowndefect.ant.info.AnnotationInformation;
+import org.megatome.knowndefect.ant.info.KnownAcceptedDefectInformation;
+import org.megatome.knowndefect.ant.info.KnownDefectInformation;
+import org.megatome.knowndefect.ant.scan.AnnotationScanResults;
+import org.megatome.knowndefect.ant.scan.AnnotationScanner;
 
-import java.util.Map;
 import java.util.Set;
 
 import static org.junit.Assert.*;
-import static org.megatome.knowndefect.Constants.KNOWN_ACCEPTED_DEFECT_ANNOTATION_CLASS;
-import static org.megatome.knowndefect.Constants.KNOWN_DEFECT_ANNOTATION_CLASS;
 
 public class AnnotationScannerTest {
 
@@ -44,21 +43,20 @@ public class AnnotationScannerTest {
 
     @Test
     public void testScanTestClasspath() throws Exception {
-        final Map<String, Set<AnnotationInformation>> foundAnnos = AnnotationScanner.findAnnotationsInPath(".");
+        final AnnotationScanResults asr = AnnotationScanner.findAnnotationsInPath(".");
 
-        assertNotNull(foundAnnos);
+        assertNotNull(asr);
 
-        assertFalse(foundAnnos.isEmpty());
+        assertFalse(asr.getKnownDefectResults().isEmpty());
+        assertFalse(asr.getKnownAcceptedDefectResults().isEmpty());
 
-        assertTrue(foundAnnos.containsKey(KNOWN_ACCEPTED_DEFECT_ANNOTATION_CLASS));
-
-        verifyKnownDefectAnnotations(foundAnnos);
-        verifyKnownAcceptedDefectAnnotations(foundAnnos);
+        verifyKnownDefectAnnotations(asr);
+        verifyKnownAcceptedDefectAnnotations(asr);
     }
 
-    private void verifyKnownDefectAnnotations(final Map<String, Set<AnnotationInformation>> foundAnnos) {
-        assertTrue(foundAnnos.containsKey(KNOWN_DEFECT_ANNOTATION_CLASS));
-        final Set<AnnotationInformation> kdAnnos = foundAnnos.get(KNOWN_DEFECT_ANNOTATION_CLASS);
+    private void verifyKnownDefectAnnotations(final AnnotationScanResults asr) {
+        //assertTrue(foundAnnos.containsKey(KNOWN_DEFECT_ANNOTATION_CLASS));
+        final Set<AnnotationInformation> kdAnnos = asr.getKnownDefectResults();
         boolean foundEmptyKD = false;
         boolean foundKD = false;
         for (final AnnotationInformation ai : kdAnnos) {
@@ -77,9 +75,8 @@ public class AnnotationScannerTest {
         assertTrue("Did not find KnownDefect annotation with value", foundKD);
     }
 
-    private void verifyKnownAcceptedDefectAnnotations(final Map<String, Set<AnnotationInformation>> foundAnnos) {
-        assertTrue(foundAnnos.containsKey(KNOWN_ACCEPTED_DEFECT_ANNOTATION_CLASS));
-        final Set<AnnotationInformation> kdAnnos = foundAnnos.get(KNOWN_ACCEPTED_DEFECT_ANNOTATION_CLASS);
+    private void verifyKnownAcceptedDefectAnnotations(final AnnotationScanResults asr) {
+        final Set<AnnotationInformation> kdAnnos = asr.getKnownAcceptedDefectResults();
         boolean foundKD = false;
         for (final AnnotationInformation ai : kdAnnos) {
             assertTrue(ai instanceof KnownAcceptedDefectInformation);

@@ -14,22 +14,20 @@
  * limitations under the License.
  ******************************************************************************/
 
-package org.megatome.knowndefect.ant.util;
+package org.megatome.knowndefect.ant.info;
 
-public class AnnotationScanException extends Exception {
-    public AnnotationScanException() {
-        super();
-    }
+import static org.megatome.knowndefect.Constants.*;
 
-    public AnnotationScanException(String s) {
-        super(s);
-    }
+public class AnnotationInformationFactory {
+    private AnnotationInformationFactory() {}
 
-    public AnnotationScanException(String s, Throwable throwable) {
-        super(s, throwable);
-    }
+    public static AnnotationInformation createInformation(final String className) {
+        if (KNOWN_DEFECT_ANNOTATION_CLASS.equals(className)) {
+            return new KnownDefectInformation();
+        } else if (KNOWN_ACCEPTED_DEFECT_ANNOTATION_CLASS.equals(className)) {
+            return new KnownAcceptedDefectInformation();
+        }
 
-    public AnnotationScanException(Throwable throwable) {
-        super(throwable);
+        return null;
     }
 }

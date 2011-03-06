@@ -14,25 +14,26 @@
  * limitations under the License.
  ******************************************************************************/
 
-package org.megatome.knowndefect.ant.util;
+package org.megatome.knowndefect.ant.scan;
 
 
 import static org.megatome.knowndefect.Constants.*;
 
 import javassist.bytecode.*;
 import javassist.bytecode.annotation.Annotation;
-import org.megatome.knowndefect.ant.AnnotationInformation;
-import org.megatome.knowndefect.ant.AnnotationInformationFactory;
+import org.megatome.knowndefect.ant.info.AnnotationInformation;
+import org.megatome.knowndefect.ant.info.AnnotationInformationFactory;
 
 import java.io.*;
 import java.util.*;
 
 public class AnnotationScanner {
-    private static final Map<String, Set<AnnotationInformation>> annotationIndex = new HashMap<String, Set<AnnotationInformation>>();
+    //private static final Map<String, Set<AnnotationInformation>> annotationIndex = new HashMap<String, Set<AnnotationInformation>>();
+    private static final AnnotationScanResults results = new AnnotationScanResults();
     private static final List<String> ignoredPackages = new ArrayList<String>(Arrays.asList("javax", "java", "sun", "com.sun", "javassist"));
     private static final Set<String> classTypes = new HashSet<String>(Arrays.asList(KNOWN_DEFECT_ANNOTATION_CLASS, KNOWN_ACCEPTED_DEFECT_ANNOTATION_CLASS));
 
-    public static Map<String, Set<AnnotationInformation>> findAnnotationsInPath(final String basePath) throws AnnotationScanException {
+    public static AnnotationScanResults findAnnotationsInPath(final String basePath) throws AnnotationScanException {
         if ((null == basePath) || (basePath.isEmpty())) {
             throw new IllegalArgumentException("Base path cannot be null");
         }
@@ -42,7 +43,7 @@ public class AnnotationScanner {
             throw new AnnotationScanException("Error scanning for annotations", e);
         }
 
-        return annotationIndex;
+        return results;
     }
 
     private static void scanArchives(File f) throws IOException {
@@ -87,6 +88,7 @@ public class AnnotationScanner {
         if (methods == null) return;
         for (final Object obj : methods) {
             final MethodInfo method = (MethodInfo) obj;
+
             final AnnotationsAttribute visible = (AnnotationsAttribute) method.getAttribute("RuntimeVisibleAnnotations");
             final AnnotationsAttribute invisible = (AnnotationsAttribute) method.getAttribute("RuntimeInvisibleAnnotations");
 
@@ -105,7 +107,7 @@ public class AnnotationScanner {
                 info.setClassName(className);
                 info.setMethodName(methodName);
                 info.setLineNumber(lineNumber);
-                Set<AnnotationInformation> classes = annotationIndex.get(ann.getTypeName());
+                //Set<AnnotationInformation> classes = annotationIndex.get(ann.getTypeName());
                 Set memberNames = ann.getMemberNames();
                 if (null != memberNames) {
                     for (Object obj : memberNames) {
@@ -113,11 +115,12 @@ public class AnnotationScanner {
                         info.setMethodValue(mName, ann.getMemberValue(mName).toString());
                     }
                 }
-                if (classes == null) {
-                    classes = new HashSet<AnnotationInformation>();
-                    annotationIndex.put(ann.getTypeName(), classes);
-                }
-                classes.add(info);
+                //if (classes == null) {
+                //    classes = new HashSet<AnnotationInformation>();
+                //    annotationIndex.put(ann.getTypeName(), classes);
+                //}
+                //classes.add(info);
+                results.addResult(info);
             }
         }
     }

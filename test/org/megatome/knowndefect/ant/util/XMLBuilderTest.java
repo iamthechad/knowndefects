@@ -17,7 +17,8 @@
 package org.megatome.knowndefect.ant.util;
 
 import org.junit.Test;
-import org.megatome.knowndefect.ant.AnnotationInformation;
+import org.megatome.knowndefect.ant.scan.AnnotationScanResults;
+import org.megatome.knowndefect.ant.scan.AnnotationScanner;
 import org.xml.sax.SAXException;
 
 import javax.xml.transform.Source;
@@ -28,12 +29,8 @@ import javax.xml.validation.Validator;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.Map;
-import java.util.Set;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 public class XMLBuilderTest {
     @Test
@@ -43,16 +40,16 @@ public class XMLBuilderTest {
 
     @Test
     public void testBuildXML() throws Exception {
-        final Map<String, Set<AnnotationInformation>> foundAnnos = AnnotationScanner.findAnnotationsInPath(".");
-        assertNotNull(foundAnnos);
-        final String xmlResult = XMLBuilder.convertToXML(foundAnnos);
+        final AnnotationScanResults asr = AnnotationScanner.findAnnotationsInPath(".");
+        assertNotNull(asr);
+        final String xmlResult = XMLBuilder.convertToXML(asr);
         assertNotNull(xmlResult);
         //System.out.println(xmlResult);
 
         // If we have a schema, assume we want to validate
         SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
         //final URL schemaLocation = this.getClass().getClassLoader().getResource(schema);
-        File f = new File("src/org/megatome/knowndefect/ant/util/kd_report.xsd");
+        File f = new File("src/org/megatome/knowndefect/ant/scan/kd_report.xsd");
         Schema s = factory.newSchema(f);
 
         Validator validator = s.newValidator();

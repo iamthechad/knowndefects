@@ -14,10 +14,8 @@
  * limitations under the License.
  ******************************************************************************/
 
-package org.megatome.knowndefect.ant;
+package org.megatome.knowndefect.ant.scan;
 
-public class KnownDefectInformation extends AbstractInformation {
-    public String getValue() {
-        return getMethodValue("value");
-    }
+public interface Filter {
+    public abstract boolean accepts(String paramString);
 }
