@@ -20,28 +20,43 @@ import org.megatome.knowndefect.ant.info.AnnotationInformation;
 import org.megatome.knowndefect.ant.info.KnownAcceptedDefectInformation;
 import org.megatome.knowndefect.ant.info.KnownDefectInformation;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class AnnotationScanResults {
-    private final Set<AnnotationInformation> knownDefectResults = new HashSet<AnnotationInformation>();
-    private final Set<AnnotationInformation> knownAcceptedDefectResults = new HashSet<AnnotationInformation>();
+    private final Map<String, List<AnnotationInformation>> knownDefectResults = new HashMap<String, List<AnnotationInformation>>();
+    private final Map<String, List<AnnotationInformation>> knownAcceptedDefectResults = new HashMap<String, List<AnnotationInformation>>();
 
-    public void addResult(AnnotationInformation info) {
+    public void addResult(final String className, final AnnotationInformation info) {
         if (null == info) return;
 
         if (info instanceof KnownDefectInformation) {
-            knownDefectResults.add(info);
+            addToResults(knownDefectResults, className, info);
+            /*List<AnnotationInformation> l = knownDefectResults.get(className);
+            if (null == l) {
+                l = new ArrayList<AnnotationInformation>();
+            }
+            l.add(info);
+            knownDefectResults.put(className, l);*/
         } else if (info instanceof KnownAcceptedDefectInformation) {
-            knownAcceptedDefectResults.add(info);
+            addToResults(knownAcceptedDefectResults, className, info);
+            //knownAcceptedDefectResults.add(info);
         }
     }
 
-    public Set<AnnotationInformation> getKnownDefectResults() {
+    private void addToResults(final Map<String, List<AnnotationInformation>> map, String className, AnnotationInformation info) {
+        List<AnnotationInformation> l = map.get(className);
+        if (null == l) {
+            l = new ArrayList<AnnotationInformation>();
+        }
+        l.add(info);
+        map.put(className, l);
+    }
+
+    public Map<String, List<AnnotationInformation>> getKnownDefectResults() {
         return knownDefectResults;
     }
 
-    public Set<AnnotationInformation> getKnownAcceptedDefectResults() {
+    public Map<String, List<AnnotationInformation>> getKnownAcceptedDefectResults() {
         return knownAcceptedDefectResults;
     }
 

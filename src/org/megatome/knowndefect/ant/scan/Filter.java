@@ -13,7 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-
+/****************************************************************
+ * Code in this class borrowed and adapted from the Scannotation library
+ * available from http://scannotation.sourceforge.net/
+ ****************************************************************/
 package org.megatome.knowndefect.ant.scan;
 
 public interface Filter {

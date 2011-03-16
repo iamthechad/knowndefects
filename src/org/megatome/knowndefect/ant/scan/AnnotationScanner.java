@@ -13,7 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-
+/****************************************************************
+ * Code in this class borrowed and adapted from the Scannotation library
+ * available from http://scannotation.sourceforge.net/
+ ****************************************************************/
 package org.megatome.knowndefect.ant.scan;
 
 
@@ -23,15 +26,21 @@ import javassist.bytecode.*;
 import javassist.bytecode.annotation.Annotation;
 import org.megatome.knowndefect.ant.info.AnnotationInformation;
 import org.megatome.knowndefect.ant.info.AnnotationInformationFactory;
+import org.megatome.knowndefect.ant.log.Logger;
+import org.megatome.knowndefect.ant.log.LoggerFactory;
 
 import java.io.*;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AnnotationScanner {
-    //private static final Map<String, Set<AnnotationInformation>> annotationIndex = new HashMap<String, Set<AnnotationInformation>>();
+    private static final Pattern QUOTE_PATTERN = Pattern.compile("^\"(.*)\"$", Pattern.DOTALL);
     private static final AnnotationScanResults results = new AnnotationScanResults();
     private static final List<String> ignoredPackages = new ArrayList<String>(Arrays.asList("javax", "java", "sun", "com.sun", "javassist"));
     private static final Set<String> classTypes = new HashSet<String>(Arrays.asList(KNOWN_DEFECT_ANNOTATION_CLASS, KNOWN_ACCEPTED_DEFECT_ANNOTATION_CLASS));
+
+    private static final Logger log = LoggerFactory.getLogger();
 
     public static AnnotationScanResults findAnnotationsInPath(final String basePath) throws AnnotationScanException {
         if ((null == basePath) || (basePath.isEmpty())) {
@@ -46,34 +55,39 @@ public class AnnotationScanner {
         return results;
     }
 
-    private static void scanArchives(File f) throws IOException {
-        Filter filter = new Filter() {
+    private static void scanArchives(final File f) throws IOException, AnnotationScanException {
+        final Filter filter = new Filter() {
             public boolean accepts(String filename) {
                 if (filename.endsWith(".class")) {
                     if (filename.startsWith("/")) filename = filename.substring(1);
-                    if (!ignoreScan(filename.replace('/', '.'))) return true;
+                    if (!ignoreScan(filename.replace('/', '.'))) {
+                        log.debug(filename + " will be included in scan");
+                        return true;
+                    }
                 }
 
                 return false;
             }
         };
-        StreamIterator it = new FileIterator(f, filter);
+        final StreamIterator it = new FileIterator(f, filter);
         InputStream stream;
         while ((stream = it.next()) != null) scanClass(stream);
     }
 
     private static boolean ignoreScan(String intf) {
-        for (String ignored : ignoredPackages) {
+        for (final String ignored : ignoredPackages) {
             if (intf.startsWith(ignored + ".")) {
+                log.debug("Ignoring package " + intf);
                 return true;
             }
         }
+        log.debug("Package " + intf + " not ignored");
         return false;
     }
 
     private static void scanClass(InputStream bits)
             throws IOException {
-        DataInputStream dstream = new DataInputStream(new BufferedInputStream(bits));
+        final DataInputStream dstream = new DataInputStream(new BufferedInputStream(bits));
         try {
             final ClassFile cf = new ClassFile(dstream);
             scanMethods(cf);
@@ -84,10 +98,15 @@ public class AnnotationScanner {
     }
 
     private static void scanMethods(ClassFile cf) {
+        log.verbose("Scanning " + cf.getName());
         final List methods = cf.getMethods();
-        if (methods == null) return;
+        if (methods == null) {
+            log.verbose("Did not find any methods in " + cf.getName());
+            return;
+        }
         for (final Object obj : methods) {
             final MethodInfo method = (MethodInfo) obj;
+            log.debug("Looking at method " + method.getName());
 
             final AnnotationsAttribute visible = (AnnotationsAttribute) method.getAttribute("RuntimeVisibleAnnotations");
             final AnnotationsAttribute invisible = (AnnotationsAttribute) method.getAttribute("RuntimeInvisibleAnnotations");
@@ -100,27 +119,27 @@ public class AnnotationScanner {
 
     private static void populate(Annotation[] annotations, String methodName, int lineNumber, String className) {
         if (annotations == null) return;
-        for (Annotation ann : annotations) {
+        for (final Annotation ann : annotations) {
             final String annotationClass = ann.getTypeName();
             if (classTypes.contains(annotationClass)) {
+                log.verbose("Found " + annotationClass + " in " + className + "." + methodName);
                 final AnnotationInformation info = AnnotationInformationFactory.createInformation(annotationClass);
                 info.setClassName(className);
                 info.setMethodName(methodName);
                 info.setLineNumber(lineNumber);
-                //Set<AnnotationInformation> classes = annotationIndex.get(ann.getTypeName());
-                Set memberNames = ann.getMemberNames();
+                final Set memberNames = ann.getMemberNames();
                 if (null != memberNames) {
-                    for (Object obj : memberNames) {
-                        String mName = (String)obj;
-                        info.setMethodValue(mName, ann.getMemberValue(mName).toString());
+                    for (final Object obj : memberNames) {
+                        final String mName = (String)obj;
+                        String value = ann.getMemberValue(mName).toString();
+                        final Matcher m = QUOTE_PATTERN.matcher(value);
+                        if (m.matches()) {
+                            value = m.group(1);
+                        }
+                        info.setMethodValue(mName, value);
                     }
                 }
-                //if (classes == null) {
-                //    classes = new HashSet<AnnotationInformation>();
-                //    annotationIndex.put(ann.getTypeName(), classes);
-                //}
-                //classes.add(info);
-                results.addResult(info);
+                results.addResult(className, info);
             }
         }
     }

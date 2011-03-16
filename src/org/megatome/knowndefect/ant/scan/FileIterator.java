@@ -13,8 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-
+/****************************************************************
+ * Code in this class borrowed and adapted from the Scannotation library
+ * available from http://scannotation.sourceforge.net/
+ ****************************************************************/
 package org.megatome.knowndefect.ant.scan;
+
+import org.megatome.knowndefect.ant.log.Logger;
+import org.megatome.knowndefect.ant.log.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,6 +30,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileIterator implements StreamIterator {
+    private static final Logger log = LoggerFactory.getLogger();
+
     private List<File> files = new ArrayList<File>();
     private int index = 0;
 
@@ -36,25 +44,27 @@ public class FileIterator implements StreamIterator {
     }
 
     protected static void create(List<File> list, File dir, Filter filter) throws Exception {
-        File[] files = dir.listFiles();
-        for (final File f : files) {
+        for (final File f : dir.listFiles()) {
             if (f.isDirectory()) {
                 create(list, f, filter);
             } else {
-                if ((filter != null) && (!filter.accepts(f.getAbsolutePath())))
+                if ((filter != null) && (!filter.accepts(f.getAbsolutePath()))) {
+                    log.debug("File not accepted by filter");
                     continue;
+                }
+                log.debug("Adding file to scan list");
                 list.add(f);
             }
         }
     }
 
-    public InputStream next() {
+    public InputStream next() throws AnnotationScanException {
         if (this.index >= this.files.size()) return null;
         File fp = this.files.get(this.index++);
         try {
             return new FileInputStream(fp);
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new AnnotationScanException(e);
         }
     }
 }

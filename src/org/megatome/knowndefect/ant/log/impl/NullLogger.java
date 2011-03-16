@@ -13,14 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-/****************************************************************
- * Code in this class borrowed and adapted from the Scannotation library
- * available from http://scannotation.sourceforge.net/
- ****************************************************************/
-package org.megatome.knowndefect.ant.scan;
 
-import java.io.InputStream;
+package org.megatome.knowndefect.ant.log.impl;
 
-public interface StreamIterator {
-    public InputStream next() throws AnnotationScanException;
+import org.megatome.knowndefect.ant.log.Logger;
+
+import java.util.Map;
+
+public class NullLogger implements Logger {
+    public void setProperties(Map<String, Object> properties) {}
+    public void info(String message) {}
+    public void verbose(String message) {}
+    public void debug(String message) {}
+    public void info(String message, Throwable t) {}
+    public void verbose(String message, Throwable t) {}
+    public void debug(String message, Throwable t) {}
 }

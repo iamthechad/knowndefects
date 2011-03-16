@@ -13,14 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-/****************************************************************
- * Code in this class borrowed and adapted from the Scannotation library
- * available from http://scannotation.sourceforge.net/
- ****************************************************************/
-package org.megatome.knowndefect.ant.scan;
 
-import java.io.InputStream;
+package org.megatome.knowndefect.ant.log;
 
-public interface StreamIterator {
-    public InputStream next() throws AnnotationScanException;
+import org.megatome.knowndefect.ant.log.impl.AntLogger;
+import org.megatome.knowndefect.ant.log.impl.NullLogger;
+import org.megatome.knowndefect.ant.log.impl.StandardOutLogger;
+
+public enum LoggingContextClass {
+    ANT_LOGGER(AntLogger.class.getName()),
+    STDOUT_LOGGER(StandardOutLogger.class.getName()),
+    NULL_LOGGER(NullLogger.class.getName());
+
+    private String className;
+
+    private LoggingContextClass(String className) {
+        this.className = className;
+    }
+
+    public String getClassName() {
+        return className;
+    }
 }

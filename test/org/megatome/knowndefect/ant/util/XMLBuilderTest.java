@@ -16,7 +16,10 @@
 
 package org.megatome.knowndefect.ant.util;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.megatome.knowndefect.ant.log.LoggerFactory;
+import org.megatome.knowndefect.ant.log.LoggingContext;
 import org.megatome.knowndefect.ant.scan.AnnotationScanResults;
 import org.megatome.knowndefect.ant.scan.AnnotationScanner;
 import org.xml.sax.SAXException;
@@ -33,9 +36,16 @@ import java.io.StringReader;
 import static org.junit.Assert.*;
 
 public class XMLBuilderTest {
+    @Before
+    public void before() {
+        LoggerFactory.setDefaultContext(LoggingContext.NULL_CONTEXT);
+    }
+
     @Test
     public void testBuildNullMap() throws Exception {
-        assertNull(XMLBuilder.convertToXML(null));
+        final String xmlResult = XMLBuilder.convertToXML(null);
+        assertNotNull(xmlResult);
+        verifyXMLStructure(xmlResult);
     }
 
     @Test
@@ -44,16 +54,17 @@ public class XMLBuilderTest {
         assertNotNull(asr);
         final String xmlResult = XMLBuilder.convertToXML(asr);
         assertNotNull(xmlResult);
-        //System.out.println(xmlResult);
 
-        // If we have a schema, assume we want to validate
-        SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
-        //final URL schemaLocation = this.getClass().getClassLoader().getResource(schema);
-        File f = new File("src/org/megatome/knowndefect/ant/scan/kd_report.xsd");
-        Schema s = factory.newSchema(f);
+        verifyXMLStructure(xmlResult);
+    }
 
-        Validator validator = s.newValidator();
-        Source source = new StreamSource(new StringReader(xmlResult));
+    private void verifyXMLStructure(final String xml) throws Exception {
+        final SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
+        final File f = new File("src/org/megatome/knowndefect/ant/scan/kd_report.xsd");
+        final Schema s = factory.newSchema(f);
+
+        final Validator validator = s.newValidator();
+        final Source source = new StreamSource(new StringReader(xml));
         try {
             validator.validate(source);
         } catch (SAXException e) {

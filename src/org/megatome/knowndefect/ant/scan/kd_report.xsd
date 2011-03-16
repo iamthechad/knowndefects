@@ -47,7 +47,7 @@
     <xs:complexContent mixed="false">
       <xs:extension base="classType">
         <xs:sequence>
-          <xs:element minOccurs="1" name="method" type="kdMethodType" />
+          <xs:element minOccurs="1" maxOccurs="unbounded" name="method" type="kdMethodType" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -56,7 +56,7 @@
     <xs:complexContent mixed="false">
       <xs:extension base="classType">
         <xs:sequence>
-          <xs:element minOccurs="1" name="method" type="kadMethodType" />
+          <xs:element minOccurs="1" maxOccurs="unbounded" name="method" type="kadMethodType" />
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>

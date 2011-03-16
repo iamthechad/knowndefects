@@ -32,12 +32,13 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.StringWriter;
-import java.util.Set;
+import java.util.List;
+import java.util.Map;
 
 public class XMLBuilder {
     public static String convertToXML(final AnnotationScanResults asr) throws Exception {
         if (null == asr) {
-            return null;
+            return convertToXML(new AnnotationScanResults());
         }
 
         //We need a Document
@@ -45,10 +46,6 @@ public class XMLBuilder {
         final DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
         final Document doc = docBuilder.newDocument();
 
-        ////////////////////////
-        //Creating the XML tree
-
-        //create the root element and add it to the document
         final Element root = doc.createElement("knowndefects");
         doc.appendChild(root);
 
@@ -78,17 +75,19 @@ public class XMLBuilder {
         return sw.toString();
     }
 
-    private static void buildClassNodes(final Document doc, final Element parent, final Set<AnnotationInformation> infoSet) {
-        for (final AnnotationInformation info : infoSet) {
+    private static void buildClassNodes(final Document doc, final Element parent, final Map<String, List<AnnotationInformation>> infoMap) {
+        for (final Map.Entry<String, List<AnnotationInformation>> entry : infoMap.entrySet()) {
             final Element infoNode = doc.createElement("class");
-            infoNode.setAttribute("name", info.getClassName());
+            infoNode.setAttribute("name", entry.getKey());
             parent.appendChild(infoNode);
 
-            final Element methodNode = doc.createElement("method");
-            methodNode.setAttribute("name", info.getMethodName());
-            infoNode.appendChild(methodNode);
+            for (final AnnotationInformation info : entry.getValue()) {
+                final Element methodNode = doc.createElement("method");
+                methodNode.setAttribute("name", info.getMethodName());
+                infoNode.appendChild(methodNode);
 
-            buildValueNodes(doc, methodNode, info);
+                buildValueNodes(doc, methodNode, info);
+            }
         }
     }
 

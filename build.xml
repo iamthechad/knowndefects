@@ -58,6 +58,7 @@
     <target name="dist-findbugs" depends="prepare-dist,compile">
         <jar jarfile="${dist.lib}/${kd_findbugs_jar}">
             <fileset dir="${classes}" includes="org/megatome/knowndefect/findbugs/**"/>
+            <fileset dir="${classes}" includes="org/megatome/knowndefect/Constants.class"/>
             <fileset dir="${src}" includes="**/*.xml"/>
         </jar>
     </target>
@@ -65,6 +66,7 @@
     <target name="dist-ant" depends="prepare-dist,compile">
         <jar jarfile="${dist.lib}/${kd_ant_jar}">
             <fileset dir="${classes}" includes="org/megatome/knowndefect/ant/**"/>
+            <fileset dir="${classes}" includes="org/megatome/knowndefect/Constants.class"/>
         </jar>
     </target>
 

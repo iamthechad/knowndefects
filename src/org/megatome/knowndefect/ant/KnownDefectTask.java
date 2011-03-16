@@ -18,15 +18,23 @@ package org.megatome.knowndefect.ant;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
-import org.megatome.knowndefect.ant.info.AnnotationInformation;
+import org.megatome.knowndefect.ant.log.LoggerFactory;
+import org.megatome.knowndefect.ant.log.LoggingContext;
+import org.megatome.knowndefect.ant.log.LoggingContextClass;
+import org.megatome.knowndefect.ant.log.impl.AntLogger;
+import org.megatome.knowndefect.ant.scan.AnnotationScanResults;
+import org.megatome.knowndefect.ant.scan.AnnotationScanner;
+import org.megatome.knowndefect.ant.util.XMLBuilder;
 
-import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class KnownDefectTask extends Task {
     private String classDir;
-    private String output = "xml";
+    //private String output = "xml";
     private String outputFile;
 
     public void setClassDir(String classDir) {
@@ -40,22 +48,32 @@ public class KnownDefectTask extends Task {
     @Override
     public void execute() throws BuildException {
         System.out.println("Executing KnownDefectTask for location " + classDir);
+        Map<String, Object> props = new HashMap<String, Object>();
+        props.put(AntLogger.ANT_PROJECT_REF, this.getProject());
+        LoggerFactory.setDefaultContext(new LoggingContext(LoggingContextClass.ANT_LOGGER, props));
         if (null == classDir || classDir.isEmpty()) {
             throw new BuildException("classDir must be specified");
         }
         if (null == outputFile || outputFile.isEmpty()) {
             throw new BuildException("outputFile must be specified");
         }
-        /*try {
-            final Map<String, Set<AnnotationInformation>> foundAnnos = AnnotationScanner.findAnnotationsInPath(classDir);
+        try {
+            final AnnotationScanResults foundAnnos = AnnotationScanner.findAnnotationsInPath(classDir);
+            log("Found " + foundAnnos.getKnownDefectResults().size() + " @KnownDefect annotations");
+            log("Found " + foundAnnos.getKnownAcceptedDefectResults().size() + " @KnownAndAcceptedDefect annotations");
             saveFoundAnnotations(foundAnnos);
-        } catch (AnnotationScanException e) {
+        } catch (Exception e) {
             throw new BuildException("Failed to find KnownDefect annotations", e);
-        }*/
+        }
     }
 
-    private void saveFoundAnnotations(final Map<String, Set<AnnotationInformation>> annos) {
-        final File f = new File(outputFile);
-
+    private void saveFoundAnnotations(final AnnotationScanResults results) throws Exception {
+        final String xml = XMLBuilder.convertToXML(results);
+        final Writer out = new OutputStreamWriter(new FileOutputStream(outputFile), "UTF-8");
+        try {
+            out.write(xml);
+        } finally {
+            out.close();
+        }
     }
 }

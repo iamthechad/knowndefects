@@ -16,20 +16,29 @@
 
 package org.megatome.knowndefect.ant.util;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.megatome.knowndefect.annotations.KnownAndAcceptedDefect;
 import org.megatome.knowndefect.annotations.KnownDefect;
 import org.megatome.knowndefect.ant.info.AnnotationInformation;
 import org.megatome.knowndefect.ant.info.KnownAcceptedDefectInformation;
 import org.megatome.knowndefect.ant.info.KnownDefectInformation;
+import org.megatome.knowndefect.ant.log.LoggerFactory;
+import org.megatome.knowndefect.ant.log.LoggingContext;
 import org.megatome.knowndefect.ant.scan.AnnotationScanResults;
 import org.megatome.knowndefect.ant.scan.AnnotationScanner;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static org.junit.Assert.*;
 
 public class AnnotationScannerTest {
+    @Before
+    public void before() {
+        LoggerFactory.setDefaultContext(LoggingContext.NULL_CONTEXT);
+    }
 
     @Test(expected = IllegalArgumentException.class)
     public void testScanNullClasspath() throws Exception {
@@ -56,19 +65,18 @@ public class AnnotationScannerTest {
 
     private void verifyKnownDefectAnnotations(final AnnotationScanResults asr) {
         //assertTrue(foundAnnos.containsKey(KNOWN_DEFECT_ANNOTATION_CLASS));
-        final Set<AnnotationInformation> kdAnnos = asr.getKnownDefectResults();
+        final Map<String, List<AnnotationInformation>> kdAnnos = asr.getKnownDefectResults();
+        assertTrue(kdAnnos.containsKey(this.getClass().getName()));
         boolean foundEmptyKD = false;
         boolean foundKD = false;
-        for (final AnnotationInformation ai : kdAnnos) {
+        for (final AnnotationInformation ai : kdAnnos.get(this.getClass().getName())) {
             assertTrue(ai instanceof KnownDefectInformation);
             final KnownDefectInformation kdi = (KnownDefectInformation)ai;
-            if (this.getClass().getName().equals(kdi.getClassName())) {
-                if ("emptyKDMethod".equals(kdi.getMethodName())) {
-                    foundEmptyKD = true;
-                } else if ("valueKDMethod".equals(kdi.getMethodName())) {
-                    foundKD = true;
-                    assertEquals("\"Sample value\"", kdi.getValue());
-                }
+            if ("emptyKDMethod".equals(kdi.getMethodName())) {
+                foundEmptyKD = true;
+            } else if ("valueKDMethod".equals(kdi.getMethodName())) {
+                foundKD = true;
+                assertEquals("Sample\nvalue", kdi.getValue());
             }
         }
         assertTrue("Did not find empty KnownDefect annotation", foundEmptyKD);
@@ -76,18 +84,17 @@ public class AnnotationScannerTest {
     }
 
     private void verifyKnownAcceptedDefectAnnotations(final AnnotationScanResults asr) {
-        final Set<AnnotationInformation> kdAnnos = asr.getKnownAcceptedDefectResults();
+        final Map<String, List<AnnotationInformation>> kdAnnos = asr.getKnownAcceptedDefectResults();
+        assertTrue(kdAnnos.containsKey(this.getClass().getName()));
         boolean foundKD = false;
-        for (final AnnotationInformation ai : kdAnnos) {
+        for (final AnnotationInformation ai : kdAnnos.get(this.getClass().getName())) {
             assertTrue(ai instanceof KnownAcceptedDefectInformation);
             final KnownAcceptedDefectInformation kdi = (KnownAcceptedDefectInformation)ai;
-            if (this.getClass().getName().equals(kdi.getClassName())) {
-                if ("sampleKADMethod".equals(kdi.getMethodName())) {
-                    foundKD = true;
-                    assertEquals("\"iamthechad\"", kdi.getAuthor());
-                    assertEquals("\"03/01/2011\"", kdi.getDate());
-                    assertEquals("\"I like \"empty\" methods\"", kdi.getReason());
-                }
+            if ("sampleKADMethod".equals(kdi.getMethodName())) {
+                foundKD = true;
+                assertEquals("iamthechad", kdi.getAuthor());
+                assertEquals("03/01/2011", kdi.getDate());
+                assertEquals("I like \"empty\" methods", kdi.getReason());
             }
         }
         assertTrue("Did not find KnownAndAcceptedDefect annotation with values", foundKD);
@@ -98,7 +105,7 @@ public class AnnotationScannerTest {
         // Nothing here
     }
 
-    @KnownDefect("Sample value")
+    @KnownDefect("Sample\nvalue")
     private void valueKDMethod() {
         // Nothing here
     }
