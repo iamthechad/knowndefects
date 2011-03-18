@@ -20,60 +20,86 @@
 
     <target name="all" depends="clean, compile, javadoc,dist"/>
 
-    <target name="init">
+    <target name="-init">
         <property file="build.properties"/>
 
         <path id="compile-class-path">
             <pathelement location="${findbugs_jar}"/>
             <pathelement location="${bcel_jar}"/>
             <pathelement location="${asm_tree_jar}"/>
+            <pathelement location="${ant_jar}"/>
+            <pathelement location="${javassist_jar}"/>
         </path>
 
         <mkdir dir="${local-out}"/>
     </target>
 
-    <target name="clean" depends="init">
+    <target name="clean" depends="-init">
         <delete dir="${local-out}"/>
         <delete dir="${dist}"/>
         <delete file="${dist.file}"/>
     </target>
 
-    <target name="compile" depends="init">
+    <target name="compile" depends="-init">
         <mkdir dir="${classes}"/>
         <javac deprecation="on" source="1.5" target="1.5" destdir="${classes}" srcdir="${src}"
                classpathref="compile-class-path"/>
     </target>
 
-    <target name="prepare-dist">
+    <target name="prepare-dist" depends="-init">
         <mkdir dir="${dist.lib}"/>
         <copy file="${readme}" tofile="${dist}/${readme}"/>
     </target>
 
     <target name="dist-annotation" depends="prepare-dist,compile">
-        <jar jarfile="${dist.lib}/${kd_jar}" basedir="${classes}" includes="com/megatome/knowndefect/annotations/**"/>
+        <jar jarfile="${dist.lib}/${kd_jar}" basedir="${classes}" includes="org/megatome/knowndefect/annotations/**"/>
     </target>
 
     <target name="dist-findbugs" depends="prepare-dist,compile">
         <jar jarfile="${dist.lib}/${kd_findbugs_jar}">
-            <fileset dir="${classes}" includes="com/megatome/knowndefect/findbugs/**"/>
+            <fileset dir="${classes}" includes="org/megatome/knowndefect/findbugs/**"/>
+            <fileset dir="${classes}" includes="org/megatome/knowndefect/Constants.class"/>
             <fileset dir="${src}" includes="**/*.xml"/>
         </jar>
     </target>
 
-    <target name="dist" depends="dist-annotation,dist-findbugs">
+    <target name="dist-ant" depends="prepare-dist,compile">
+        <jar jarfile="${dist.lib}/${kd_ant_jar}">
+            <fileset dir="${classes}" includes="org/megatome/knowndefect/ant/**"/>
+            <fileset dir="${classes}" includes="org/megatome/knowndefect/Constants.class"/>
+        </jar>
+        <copy file="${javassist_jar}" todir="${dist.lib}"/>
+    </target>
+
+    <target name="dist" depends="-init,dist-annotation,dist-findbugs,dist-ant">
         <zip destfile="${dist.file}" basedir="${dist}"/>
     </target>
 
-    <target name="javadoc" depends="compile">
-        <mkdir dir="${dist.docs}"/>
+    <target name="javadoc" depends="-init, javadoc-annotation, javadoc-findbugs, javadoc-ant"/>
+
+    <target name="javadoc-annotation" depends="compile">
+        <mkdir dir="${dist.docs}/annotation"/>
+        <javadoc destdir="${dist.docs}/annotation" windowTitle="KnownDefect Annotation API"
+                 doctitle="Known Defect Annotation API" breakiterator="yes">
+            <packageset dir="${src}" includes="org/megatome/knowndefect/annotations/**"/>
+            <packageset dir="${examples}" defaultexcludes="yes"/>
+            <bottom>
+                <![CDATA[<em>Copyright (C) 2011, Megatome Technologies</em>
+			<br>All Rights Reserved]]>
+            </bottom>
+            <link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>
+        </javadoc>
+    </target>
+
+    <target name="javadoc-findbugs" depends="compile">
+        <mkdir dir="${dist.docs}/findbugs"/>
         <path id="doc-classpath">
             <pathelement location="${findbugs_jar}"/>
             <pathelement location="${bcel_jar}"/>
         </path>
-        <javadoc destdir="${dist.docs}" windowTitle="KnownDefect API" classpathref="doc-classpath"
-                 doctitle="Known Defect API" breakiterator="yes">
-            <packageset dir="${src}" defaultexcludes="yes"/>
-            <packageset dir="${examples}" defaultexcludes="yes"/>
+        <javadoc destdir="${dist.docs}/findbugs" windowTitle="KnownDefect Findbugs API" classpathref="doc-classpath"
+                 doctitle="Known Defect Findbugs API" breakiterator="yes">
+            <packageset dir="${src}" includes="org/megatome/knowndefect/findbugs/**"/>
             <bottom>
                 <![CDATA[<em>Copyright (C) 2011, Megatome Technologies</em>
 			<br>All Rights Reserved]]>
@@ -81,6 +107,24 @@
             <link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>
             <link href="http://findbugs.sourceforge.net/api/"/>
             <link href="http://jakarta.apache.org/bcel/apidocs/"/>
+        </javadoc>
+    </target>
+
+    <target name="javadoc-ant" depends="compile">
+        <mkdir dir="${dist.docs}/ant"/>
+        <path id="doc-classpath">
+            <pathelement location="${javassist_jar}"/>
+            <pathelement location="${ant_jar}"/>
+        </path>
+        <javadoc destdir="${dist.docs}/ant" windowTitle="KnownDefect Ant API" classpathref="doc-classpath"
+                 doctitle="Known Defect Ant API" breakiterator="yes">
+            <packageset dir="${src}" includes="org/megatome/knowndefect/ant/**"/>
+            <bottom>
+                <![CDATA[<em>Copyright (C) 2011, Megatome Technologies</em>
+			<br>All Rights Reserved]]>
+            </bottom>
+            <link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>
+            <link href="http://api.dpml.net/org/apache/ant/1.7.0/"/>
         </javadoc>
     </target>
 </project>

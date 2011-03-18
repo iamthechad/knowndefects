@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--Created with Liquid XML Studio - 30 Day Trial Edition 7.1.4.1284 (http://www.liquid-technologies.com)-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  ~ Copyright (c) 2011 Megatome Technologies
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="knowndefects" type="knowndefectsType" />
+  <xs:complexType name="methodType" mixed="true">
+    <xs:attribute name="name" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:complexType name="kdMethodType">
+    <xs:complexContent mixed="true">
+      <xs:extension base="methodType">
+        <xs:sequence>
+          <xs:element minOccurs="0" maxOccurs="1" name="value" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="kadMethodType">
+    <xs:complexContent mixed="true">
+      <xs:extension base="methodType">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" name="author" type="xs:string" />
+          <xs:element minOccurs="1" maxOccurs="1" name="reason" type="xs:string" />
+          <xs:element minOccurs="1" maxOccurs="1" name="date" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="classType">
+    <xs:attribute name="name" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:complexType name="kdClassType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="classType">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="unbounded" name="method" type="kdMethodType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="kadClassType">
+    <xs:complexContent mixed="false">
+      <xs:extension base="classType">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="unbounded" name="method" type="kadMethodType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="knowndefectsType">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="knowndefect">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="class" type="kdClassType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="knownandaccepteddefect">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="class" type="kadClassType" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
