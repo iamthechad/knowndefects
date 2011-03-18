@@ -46,7 +46,7 @@
                classpathref="compile-class-path"/>
     </target>
 
-    <target name="prepare-dist">
+    <target name="prepare-dist" depends="-init">
         <mkdir dir="${dist.lib}"/>
         <copy file="${readme}" tofile="${dist}/${readme}"/>
     </target>
@@ -68,9 +68,10 @@
             <fileset dir="${classes}" includes="org/megatome/knowndefect/ant/**"/>
             <fileset dir="${classes}" includes="org/megatome/knowndefect/Constants.class"/>
         </jar>
+        <copy file="${javassist_jar}" todir="${dist.lib}"/>
     </target>
 
-    <target name="dist" depends="dist-annotation,dist-findbugs,dist-ant">
+    <target name="dist" depends="-init,dist-annotation,dist-findbugs,dist-ant">
         <zip destfile="${dist.file}" basedir="${dist}"/>
     </target>
 
