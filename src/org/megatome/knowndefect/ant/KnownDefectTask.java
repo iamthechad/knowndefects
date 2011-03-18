@@ -32,6 +32,9 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Ant task for find and reporting instances of KnownDefect and KnownAndAcceptedDefect
+ */
 public class KnownDefectTask extends Task {
     private String classDir;
     //private String output = "xml";

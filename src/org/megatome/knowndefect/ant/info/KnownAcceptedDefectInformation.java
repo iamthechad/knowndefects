@@ -16,15 +16,31 @@
 
 package org.megatome.knowndefect.ant.info;
 
+/**
+ * Information class representing KnownAndAcceptedDefect annotation
+ * @see AnnotationInformation
+ */
 public class KnownAcceptedDefectInformation extends AbstractInformation {
+    /**
+     * Return the author value
+     * @return Author
+     */
     public String getAuthor() {
         return getMethodValue("author");
     }
 
+    /**
+     * Return the date value
+     * @return Date string
+     */
     public String getDate() {
         return getMethodValue("date");
     }
 
+    /**
+     * Return the reason value
+     * @return Reason
+     */
     public String getReason() {
         return getMethodValue("reason");
     }

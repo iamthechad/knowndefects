@@ -21,6 +21,9 @@ import org.megatome.knowndefect.ant.log.Logger;
 
 import java.util.Map;
 
+/**
+ * Logger that uses Ant's logging facilities.
+ */
 public class AntLogger implements Logger {
     public static final String ANT_PROJECT_REF = "apr";
     private Project project;

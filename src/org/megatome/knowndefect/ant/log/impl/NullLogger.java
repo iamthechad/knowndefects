@@ -20,6 +20,9 @@ import org.megatome.knowndefect.ant.log.Logger;
 
 import java.util.Map;
 
+/**
+ * Logger that does not produce any output. Useful in unit tests to avoid spamming the console.
+ */
 public class NullLogger implements Logger {
     public void setProperties(Map<String, Object> properties) {}
     public void info(String message) {}

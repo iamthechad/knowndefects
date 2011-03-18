@@ -21,6 +21,11 @@ package org.megatome.knowndefect.ant.scan;
 
 import java.io.InputStream;
 
+/**
+ * Interface for an iterator that provides an InputStream
+ * Code in this class borrowed and adapted from the Scannotation library
+ * available from <a href="http://scannotation.sourceforge.net/">http://scannotation.sourceforge.net/</a>
+ */
 public interface StreamIterator {
     public InputStream next() throws AnnotationScanException;
 }

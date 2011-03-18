@@ -29,6 +29,11 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Iterate through a directory to find files.
+ * <p>Code in this class borrowed and adapted from the Scannotation library
+ * available from <a href="http://scannotation.sourceforge.net/">http://scannotation.sourceforge.net/</a></p>
+ */
 public class FileIterator implements StreamIterator {
     private static final Logger log = LoggerFactory.getLogger();
 

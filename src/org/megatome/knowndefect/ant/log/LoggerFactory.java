@@ -18,15 +18,26 @@ package org.megatome.knowndefect.ant.log;
 
 import org.megatome.knowndefect.ant.log.impl.StandardOutLogger;
 
+/**
+ * Factory for creating logger instances based on the currently set default context.
+ */
 public class LoggerFactory {
     private LoggerFactory() {}
 
     private static LoggingContext defaultContext = LoggingContext.STDOUT_CONTEXT;
 
+    /**
+     * Set the context to be used when creating loggers.
+     * @param context Context
+     */
     public static void setDefaultContext(final LoggingContext context) {
         defaultContext = context;
     }
 
+    /**
+     * Get a logger instance, using the default context to drive the implementation.
+     * @return Logger instance
+     */
     public static Logger getLogger() {
         try {
             Class c = Class.forName(defaultContext.getContextClass().getClassName());

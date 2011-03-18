@@ -18,9 +18,18 @@ package org.megatome.knowndefect.ant.info;
 
 import static org.megatome.knowndefect.Constants.*;
 
+/**
+ * Construct an appropriate AnnotationInformation object based on the annotation class name.
+ * @see AnnotationInformation
+ */
 public class AnnotationInformationFactory {
     private AnnotationInformationFactory() {}
 
+    /**
+     * Create and return an AnnotationInformation instance.
+     * @param className Class name to create instance for.
+     * @return Created class, or null if the class is not one of the KnownDefect types.
+     */
     public static AnnotationInformation createInformation(final String className) {
         if (KNOWN_DEFECT_ANNOTATION_CLASS.equals(className)) {
             return new KnownDefectInformation();

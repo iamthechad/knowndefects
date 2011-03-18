@@ -35,7 +35,18 @@ import java.io.StringWriter;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Creates an XML string from annotation scan results.
+ */
 public class XMLBuilder {
+    private XMLBuilder() {}
+
+    /**
+     * Convert scan results to an XML string.
+     * @param asr Scan results
+     * @return XML string
+     * @throws Exception If an error occurs
+     */
     public static String convertToXML(final AnnotationScanResults asr) throws Exception {
         if (null == asr) {
             return convertToXML(new AnnotationScanResults());

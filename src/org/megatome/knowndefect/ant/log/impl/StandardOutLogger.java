@@ -20,6 +20,9 @@ import org.megatome.knowndefect.ant.log.Logger;
 
 import java.util.Map;
 
+/**
+ * Logger that logs to System.out
+ */
 public class StandardOutLogger implements Logger {
 
     final private static String DEBUG = "DEBUG: ";

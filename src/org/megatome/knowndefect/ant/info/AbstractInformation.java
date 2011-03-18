@@ -21,6 +21,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Abstract implementation of AnnotationInformation. Handles common behavior.
+ * @see AnnotationInformation
+ */
 public class AbstractInformation implements AnnotationInformation {
     private String className;
     private String methodName;

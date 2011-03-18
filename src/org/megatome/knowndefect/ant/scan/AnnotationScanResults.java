@@ -22,24 +22,25 @@ import org.megatome.knowndefect.ant.info.KnownDefectInformation;
 
 import java.util.*;
 
+/**
+ * Holds the results of a annotation scan.
+ */
 public class AnnotationScanResults {
     private final Map<String, List<AnnotationInformation>> knownDefectResults = new HashMap<String, List<AnnotationInformation>>();
     private final Map<String, List<AnnotationInformation>> knownAcceptedDefectResults = new HashMap<String, List<AnnotationInformation>>();
 
+    /**
+     * Add a result
+     * @param className Name of the class the result was found in
+     * @param info Result to add
+     */
     public void addResult(final String className, final AnnotationInformation info) {
         if (null == info) return;
 
         if (info instanceof KnownDefectInformation) {
             addToResults(knownDefectResults, className, info);
-            /*List<AnnotationInformation> l = knownDefectResults.get(className);
-            if (null == l) {
-                l = new ArrayList<AnnotationInformation>();
-            }
-            l.add(info);
-            knownDefectResults.put(className, l);*/
         } else if (info instanceof KnownAcceptedDefectInformation) {
             addToResults(knownAcceptedDefectResults, className, info);
-            //knownAcceptedDefectResults.add(info);
         }
     }
 
@@ -52,10 +53,18 @@ public class AnnotationScanResults {
         map.put(className, l);
     }
 
+    /**
+     * Get all found KnownDefect annotations
+     * @return Map of results, with class name found in as key. May be empty.
+     */
     public Map<String, List<AnnotationInformation>> getKnownDefectResults() {
         return knownDefectResults;
     }
 
+    /**
+     * Get all found KnownAndAcceptedDefect annotations
+     * @return Map of results, with class name found in as key. May be empty.
+     */
     public Map<String, List<AnnotationInformation>> getKnownAcceptedDefectResults() {
         return knownAcceptedDefectResults;
     }

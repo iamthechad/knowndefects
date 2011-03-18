@@ -19,23 +19,48 @@ package org.megatome.knowndefect.ant.log;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Context used to tell the factory which logger instance to create
+ */
 public class LoggingContext {
     private final LoggingContextClass contextClass;
     private final Map<String, Object> properties;
 
+    /**
+     * Create a context instance.
+     * @param contextClass Class this context represents
+     * @param properties Optional properties to be passed to the logger
+     */
     public LoggingContext(LoggingContextClass contextClass, Map<String, Object> properties) {
         this.contextClass = contextClass;
         this.properties = (properties == null) ? new HashMap<String, Object>() : new HashMap<String, Object>(properties);
     }
 
+    /**
+     * Get the context class
+     * @return Context class
+     */
     public LoggingContextClass getContextClass() {
         return contextClass;
     }
 
+    /**
+     * Get the properties associated with this context.
+     * @return Properties. May be empty
+     */
     public Map<String, Object> getProperties() {
         return properties;
     }
 
+    /**
+     * Context representing the {@link org.megatome.knowndefect.ant.log.impl.StandardOutLogger}
+     * @see org.megatome.knowndefect.ant.log.impl.StandardOutLogger
+     */
     public static final LoggingContext STDOUT_CONTEXT = new LoggingContext(LoggingContextClass.STDOUT_LOGGER, null);
+
+    /**
+     *  Context representing the {@link org.megatome.knowndefect.ant.log.impl.NullLogger}
+     *  @see org.megatome.knowndefect.ant.log.impl.NullLogger
+     */
     public static final LoggingContext NULL_CONTEXT = new LoggingContext(LoggingContextClass.NULL_LOGGER, null);
 }

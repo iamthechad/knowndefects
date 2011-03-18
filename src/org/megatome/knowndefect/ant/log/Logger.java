@@ -18,12 +18,53 @@ package org.megatome.knowndefect.ant.log;
 
 import java.util.Map;
 
+/**
+ * Interface for logging. The log levels correspond to the Ant log levels, with debug being more verbose
+ * than the verbose level.
+ */
 public interface Logger {
+    /**
+     * Set any properties that the logger may need to initialize correctly.
+     * @param properties Properties
+     */
     public void setProperties(Map<String, Object> properties);
+
+    /**
+     * Log a message at info level.
+     * @param message Message
+     */
     public void info(String message);
+
+    /**
+     * Log a message at verbose level.
+     * @param message Message
+     */
     public void verbose(String message);
+
+    /**
+     * Log a message at debug level.
+     * @param message Message
+     */
     public void debug(String message);
+
+    /**
+     * Log a message at info level.
+     * @param message Message
+     * @param t Throwable to capture in the log
+     */
     public void info(String message, Throwable t);
+
+    /**
+     * Log a message at info level.
+     * @param message Message
+     * @param t Throwable to capture in the log
+     */
     public void verbose(String message, Throwable t);
+
+    /**
+     * Log a message at info level.
+     * @param message Message
+     * @param t Throwable to capture in the log
+     */
     public void debug(String message, Throwable t);
 }

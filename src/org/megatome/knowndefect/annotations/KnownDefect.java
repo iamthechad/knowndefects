@@ -16,7 +16,11 @@
 
 package org.megatome.knowndefect.annotations;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import static java.lang.annotation.ElementType.METHOD;
+import java.lang.annotation.Retention;
+import static java.lang.annotation.RetentionPolicy.CLASS;
+import java.lang.annotation.Target;
 
 /**
  * Annotation to be used when creating characterization tests. Characterization tests
@@ -28,8 +32,8 @@ import java.lang.annotation.*;
  *
  * @author cjohnston
  */
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.CLASS)
+@Target(METHOD)
+@Retention(CLASS)
 @Documented
 public @interface KnownDefect {
     /**

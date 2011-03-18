@@ -16,7 +16,15 @@
 
 package org.megatome.knowndefect.ant.info;
 
+/**
+ * Information class representing KnownDefect annotation
+ * @see AnnotationInformation
+ */
 public class KnownDefectInformation extends AbstractInformation {
+    /**
+     * Get the value for this annotation
+     * @return value
+     */
     public String getValue() {
         return getMethodValue("value");
     }

@@ -34,6 +34,11 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Responsible for scanning archives to find the KD annotations.
+ * <p>Code in this class borrowed and adapted from the Scannotation library
+ * available from <a href="http://scannotation.sourceforge.net/">http://scannotation.sourceforge.net/</a></p>
+ */
 public class AnnotationScanner {
     private static final Pattern QUOTE_PATTERN = Pattern.compile("^\"(.*)\"$", Pattern.DOTALL);
     private static final AnnotationScanResults results = new AnnotationScanResults();
@@ -42,6 +47,14 @@ public class AnnotationScanner {
 
     private static final Logger log = LoggerFactory.getLogger();
 
+    private AnnotationScanner() {}
+
+    /**
+     * Scan the classes found at the base path for the KD annotations. Recurses through subdirectories.
+     * @param basePath Path to begin the scan at
+     * @return Object containing all found annotation results
+     * @throws AnnotationScanException If an error occurs
+     */
     public static AnnotationScanResults findAnnotationsInPath(final String basePath) throws AnnotationScanException {
         if ((null == basePath) || (basePath.isEmpty())) {
             throw new IllegalArgumentException("Base path cannot be null");

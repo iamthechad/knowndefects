@@ -16,6 +16,9 @@
 
 package org.megatome.knowndefect.ant.scan;
 
+/**
+ * Generic scanning exception
+ */
 public class AnnotationScanException extends Exception {
     public AnnotationScanException() {
         super();
