@@ -16,7 +16,7 @@
 
 package org.megatome.knowndefect.example;
 
-import org.megatome.knowndefect.annotations.KnownDefect;
+import com.megatome.knowndefects.annotations.KnownDefect;
 
 /**
  * This is a sample class to show how the annotation is documented in JavaDoc.

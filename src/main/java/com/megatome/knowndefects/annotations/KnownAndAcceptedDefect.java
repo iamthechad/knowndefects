@@ -14,7 +14,7 @@
  * limitations under the License.
  ******************************************************************************/
 
-package org.megatome.knowndefect.annotations;
+package com.megatome.knowndefects.annotations;
 
 import java.lang.annotation.Documented;
 import static java.lang.annotation.ElementType.METHOD;
