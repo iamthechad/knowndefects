@@ -1,30 +1,3 @@
-KnownDefects Utility
----------------------
-
-Annotation Usage:
-* Add kd.jar to your classpath.
-* Annotate methods containing known defects with @KnownDefect("brief description of defect")
-
-Collecting Annotations:
-* Install FindBugs (http://findbugs.sourceforge.net/)
-* Add kd_findbugs.jar to the plugin directory of your FindBug install. (You may have to look for this directory in your Eclipse directory structure if you have the Eclipse plugin installed.)
-* Run FindBugs as normal. KnownDefect annotations are collected under the "Correctness" category.
-
-Collecting Annotations Using Ant:
-* Add kd-ant.jar and javassist.jar to your Ant classpath
-* Use the following to define the task and generate the report.
-<path id="kd.lib">
-  <pathelement location="path/to/kd_ant.jar"/>
-  <pathelement location="path/to/javassist.jar"/>
-</path>
-<taskdef name="kd" classname="org.megatome.knowndefect.ant.KnownDefectTask" classpathref="kd.lib"/>
-
-<target name="kd_report">
-  <kd classdir="${compiled_code}" outputfile="output_dir/kd.xml"/>
-</target>
-
--------------------------------------------------------------
-
 Why Would I Want To Use This Annotation?
 
 I wrote this annotation to help me when working with legacy code. Much of the code I work with does not have associated unit tests, so its behavior is not well documented.
@@ -53,18 +26,10 @@ To document this defect, I add the following annotation to the test method:
 
 The correct behavior is now documented, and the test still passes.
 
-The FindBugs detector was added as a way to collect the KnownDefect instances so that defects can get properly handled and not lost in the code.
-
---------------------------------------------------------------------------
-
-Some code in this project borrowed and adapted from the Scannotation library available from http://scannotation.sourceforge.net/
-
---------------------------------------------------------------------------
-
 Portions of this code were written in front of a live studio audience.
 
 /*
- * Copyright 2011 Megatome Technologies
+ * Copyright 2012 Megatome Technologies
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
