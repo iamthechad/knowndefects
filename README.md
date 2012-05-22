@@ -22,4 +22,19 @@ To document this defect, I add the following annotation to the test method:
 
 The correct behavior is now documented, and the test still passes.
 
+## How do I use this?
+
+The simplest way to use these annotations is with Maven. Simply add the following to your POM:
+
+    <dependency>
+        <groupId>com.megatome.knowndefects</groupId>
+        <artifactId>knowndefects</artifactId>
+        <version>1.0</version>
+        <scope>test</scope>
+    </dependency>
+
+## What if I'm using Ant?
+
+Switch over to the `standalone_with_ant` branch and grab a tarball. The Ant task includes rudimentary reporting for instances of the annotations.
+
 Portions of this code were written in front of a live studio audience.
