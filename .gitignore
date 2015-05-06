@@ -1,10 +1,5 @@
-
 .DS_Store
-
 *.iml
-
-*.ipr
-
-*.iws
-
-target/
+.idea
+.gradle
+build

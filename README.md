@@ -29,12 +29,12 @@ The simplest way to use these annotations is with Maven. Simply add the followin
     <dependency>
         <groupId>com.megatome.knowndefects</groupId>
         <artifactId>knowndefects</artifactId>
-        <version>1.0</version>
+        <version>1.1</version>
         <scope>test</scope>
     </dependency>
+    
+If you're using Gradle:
 
-## What if I'm using Ant?
-
-Switch over to the `standalone_with_ant` branch and grab a tarball. The Ant task includes rudimentary reporting for instances of the annotations.
+    testCompile "com.megatome.knowndefects:knowndefects:1.1"
 
 Portions of this code were written in front of a live studio audience.

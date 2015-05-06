@@ -1,0 +1,96 @@
+version = '1.1'
+
+apply plugin: 'java'
+
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
+
+group = "com.megatome.knowndefects"
+archivesBaseName = 'knowndefects'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.0'
+    }
+}
+
+def pomConfig = {
+    scm {
+        connection "scm:git:git@github.com:iamthechad/knowndefects.git"
+        developerConnection "scm:git:git@github.com:iamthechad/knowndefects.git"
+        url "https://github.com/iamthechad/knowndefects"
+    }
+    issueManagement {
+        system "Github Issue Tracker"
+        url "https://github.com/iamthechad/knowndefects/issues"
+    }
+    licenses {
+        license {
+            name "Apache 2"
+            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            distribution "repo"
+        }
+    }
+    developers {
+        developer {
+            id "iamthechad"
+            name "Chad Johnston"
+            email "cjohnston@megatome.com"
+        }
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifactId archivesBaseName
+            artifact sourceJar
+            artifact javadocJar
+
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('name', 'Known Defect Annotations')
+                root.appendNode('url', 'https://github.com/iamthechad/knowndefects')
+                root.appendNode('description', 'A set of annotations to mark issues while unit testing.')
+                root.children().last() + pomConfig
+            }
+        }
+    }
+}
+
+bintray {
+    user = project.hasProperty('bintray_user') ? project.bintray_user : System.getenv('bintray_user')
+    key = project.hasProperty('bintray_key') ? project.bintray_key : System.getenv('bintray_key')
+    publications = ['mavenJava']
+    dryRun = true
+    publish = false
+    pkg {
+        repo = 'maven'
+        name = 'knowndefects'
+        desc = 'Known Defect Annotations'
+        websiteUrl = 'https://github.com/iamthechad/knowndefects'
+        issueTrackerUrl = 'https://github.com/iamthechad/knowndefects/issues'
+        vcsUrl = 'https://github.com/iamthechad/knowndefects.git'
+        licenses = ['Apache-2.0']
+        labels = ['annotation', 'test']
+        publicDownloadNumbers = true
+        version {
+            name = project.version
+            vcsTag = '1.1'
+        }
+    }
+}
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
