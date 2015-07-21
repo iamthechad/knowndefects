@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
 
     <!--[if lt IE 9]>
@@ -62,15 +62,15 @@ To document this defect, I add the following annotation to the test method:</p>
 <pre><code>&lt;dependency&gt;
     &lt;groupId&gt;com.megatome.knowndefects&lt;/groupId&gt;
     &lt;artifactId&gt;knowndefects&lt;/artifactId&gt;
-    &lt;version&gt;1.0&lt;/version&gt;
+    &lt;version&gt;1.1&lt;/version&gt;
     &lt;scope&gt;test&lt;/scope&gt;
 &lt;/dependency&gt;
 </code></pre>
 
-<h2>
-<a id="what-if-im-using-ant" class="anchor" href="#what-if-im-using-ant" aria-hidden="true"><span class="octicon octicon-link"></span></a>What if I'm using Ant?</h2>
+<p>If you're using Gradle:</p>
 
-<p>Switch over to the <code>standalone_with_ant</code> branch and grab a tarball. The Ant task includes rudimentary reporting for instances of the annotations.</p>
+<pre><code>testCompile "com.megatome.knowndefects:knowndefects:1.1"
+</code></pre>
 
 <p>Portions of this code were written in front of a live studio audience.</p>
         </section>
